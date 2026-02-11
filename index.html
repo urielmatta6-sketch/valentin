@@ -1,0 +1,171 @@
+<!DOCTYPE html><html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>¿Quieres ser mi San Valentín? ❤️</title>  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.18);
+      padding: 35px;
+      border-radius: 25px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+      max-width: 380px;
+      animation: fadeIn 1.2s ease;
+    }
+
+    img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid white;
+      margin-bottom: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    h1 { font-size: 1.9em; margin-bottom: 10px; }
+    p { font-size: 1.05em; margin-bottom: 18px; }
+
+    .counter {
+      font-size: 0.95em;
+      margin-bottom: 18px;
+      opacity: 0.9;
+    }
+
+    button {
+      border: none;
+      padding: 12px 24px;
+      margin: 8px;
+      font-size: 1em;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+
+    .yes { background: #ff4b5c; color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.25); }
+    .no { background: #ffffff; color: #ff4b5c; }
+
+    button:hover { transform: scale(1.1); }
+
+    .hidden {
+      display: none;
+      margin-top: 18px;
+      font-size: 1.3em;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    .hearts {
+      position: fixed;
+      bottom: -20px;
+      font-size: 20px;
+      animation: floatUp 4s linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(0) scale(1); opacity: 1; }
+      to { transform: translateY(-110vh) scale(1.5); opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style></head><body onclick="startMusic()">  <!-- Música --><audio id="music" src="viento.mp3" preload="auto" loop></audio>
+
+  <div class="card"><img src="foto.jpg" alt="Pochocla y yo" />
+
+<h1>Hola Pochocla ❤️</h1>
+
+<p>
+  Desde que llegaste a mi vida todo es más bonito.
+  <br />
+  ¿Quieres ser mi San Valentín? 🥺
+</p>
+
+<div class="counter" id="counter"></div>
+
+<button class="yes" onclick="sayYes(event)">Sí 💘</button>
+<button class="no" onclick="escapeNo(event)">No 😢</button>
+
+<div id="message" class="hidden">
+  TE AMO DEMASIADO POCHOCLA 💖✨
+  <br />
+  Gracias por hacer mi vida tan feliz 🥺
+</div>
+
+  </div>  <script>
+    // ===== INICIAR MÚSICA AL TOCAR LA PANTALLA =====
+    function startMusic() {
+      const music = document.getElementById('music');
+      music.play().catch(() => {});
+      document.body.onclick = null; // solo una vez
+    }
+
+    // ===== CONTADOR DESDE 27 JULIO 2024 =====
+    const startDate = new Date('2024-07-27T00:00:00');
+
+    function updateCounter() {
+      const now = new Date();
+      const diff = now - startDate;
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+
+      document.getElementById('counter').innerText =
+        `Llevamos juntos: ${days} días, ${hours} horas y ${minutes} minutos ❤️`;
+    }
+
+    setInterval(updateCounter, 60000);
+    updateCounter();
+
+    // ===== BOTÓN SÍ =====
+    function sayYes(e) {
+      e.stopPropagation();
+
+      document.getElementById('message').classList.remove('hidden');
+
+      // corazones flotando
+      for (let i = 0; i < 30; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'hearts';
+        heart.innerText = '💖';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+        heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 4000);
+      }
+    }
+
+    // ===== BOTÓN NO ESCAPA MUCHAS VECES =====
+    function escapeNo(e) {
+      e.preventDefault();
+
+      const btn = e.target;
+
+      const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+      const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+
+      btn.style.position = 'fixed';
+      btn.style.left = x + 'px';
+      btn.style.top = y + 'px';
+    }
+  </script></body>
+</html>
